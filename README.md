@@ -114,4 +114,10 @@ git pull origin main
 
 エラーが出たり、コンフリクト（競合）が起きて画面が真っ赤になっても焦らないでください。
 **「一緒に画面を見て直す」のが、チーム開発の最大の醍醐味です！**
-# 6-
+---
+
+## 📚 Resources
+- [Team Members](./docs/teams.md) - 各チームの構成メンバー一覧
+- [JavaScript & React Recipes](./docs/js-recipes.md) - 開発ですぐに使えるコード集
+- [Mentor Feedback Framework](./docs/mentor-feedback-framework.md) - アイデアを磨くための指針
+
