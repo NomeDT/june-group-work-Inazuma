@@ -37,6 +37,7 @@
 2. **解決する課題**: その人は朝、何に困っているか？（例: 傘を忘れる、ニュースを見る時間がない）
 3. **使用するAPI**: 課題を解決するために、何のデータを表示するか？（※ `docs/api-catalog.md` を参照）
 4. **ワイヤーフレーム（画面設計）**: どこに何を配置するか、手書きのメモや写真で構わないのでレイアウトの設計図を描きましょう。
+  5. **formの提出**: https://docs.google.com/forms/d/e/1FAIpQLSfKDIz_TLKX6Hi2kJmRQze0FkCg_yLK07IX-X1qs-86OCjTFQ/viewform 
 
 ---
 
@@ -121,4 +122,3 @@ git pull origin main
 - [Requirements Sheet](./docs/requirements-sheet.md) - プロジェクトの核心を定義するためのシート
 - [JavaScript & React Recipes](./docs/js-recipes.md) - 開発ですぐに使えるコード集
 - [Mentor Feedback Framework](./docs/mentor-feedback-framework.md) - アイデアを磨くための指針
-
