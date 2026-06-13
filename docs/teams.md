@@ -14,6 +14,7 @@
 - Rinto Nakagawa (No Discord)
 - Kenta Toyokura
 - Ayane Nakamura
+- Hayato Mihashi
 
 ## 3. Wither Village
 - Hibiki Masuda
@@ -24,6 +25,11 @@
 - Fuyu Shimura (No Discord)
 
 ## 4. Waseda Transportation
+
+### repository
+https://github.com/stama72/waseda-transportation
+
+### team member
 - Sano
 - Hashimoto
 - Kuribayashi
@@ -37,3 +43,9 @@
 - Yukihiro Wada
 - Hiroki Konegawa
 - Yuya Imasato
+
+## 6. HTML/CSS Experts Team
+- Shiori Wakasa
+- Daichi Tokunaga
+- Yuu Fuji
+- Mizuho Ueda

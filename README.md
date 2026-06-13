@@ -118,6 +118,7 @@ git pull origin main
 
 ## 📚 Resources
 - [Team Members](./docs/teams.md) - 各チームの構成メンバー一覧
+- [Requirements Sheet](./docs/requirements-sheet.md) - プロジェクトの核心を定義するためのシート
 - [JavaScript & React Recipes](./docs/js-recipes.md) - 開発ですぐに使えるコード集
 - [Mentor Feedback Framework](./docs/mentor-feedback-framework.md) - アイデアを磨くための指針
 
