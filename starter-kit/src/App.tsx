@@ -1,5 +1,5 @@
-import React from 'react';
-import { Sun, Cloud, Newspaper, CheckCircle, Clock } from 'lucide-react';
+import React, { useState } from 'react';
+import { Sun, Cloud, Newspaper, CheckCircle, Clock, Briefcase } from 'lucide-react';
 
 function App() {
   const [time, setTime] = React.useState(new Date());
@@ -8,6 +8,20 @@ function App() {
     const timer = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
+
+  {/* 持ち物がチェックされたか */}
+  const [items, setItems] = useState([{checked: false}, {checked: false}, {checked: false}]);
+
+  {/* 持ち物がクリックされたときの関数 */}
+  const toggleCheck = (index: number) => {
+    setItems((prev) =>
+      prev.map((item, i) =>
+        i === index
+          ? { ...item, checked: !item.checked }
+          : item
+      )
+    );
+  };
 
   return (
     <div className="min-h-screen p-4 md:p-8">
@@ -31,6 +45,45 @@ function App() {
             <div className="text-4xl font-bold mb-1">24°C</div>
             <p className="text-slate-500">Sunny Day</p>
           </div>
+        </section>
+
+        {/* 持ち物リスト */}
+        <section className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="font-semibold text-lg flex items-center gap-2">
+              <Briefcase className="text-lime-500" /> Packing List
+            </h2>
+          </div>
+          <ul className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {items.map((item, i) => (
+              <li key={i} className="flex flex-col items-center">
+                {/* 丸いアイコン */}
+                <button
+                  onClick={() => toggleCheck(i)}
+                  className={`relative w-20 h-20 rounded-full flex items-center justify-center overflow-hidden shadow transition-all duration-200 
+                    ${item.checked
+                      ? "bg-green-100 ring-4 ring-green-500"
+                      : "bg-slate-100 hover:bg-slate-200"
+                  }`}
+                >
+                  <div className="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center overflow-hidden shadow">
+                    <img src={"/images/umbrella.png"} alt={""} className="w-12 h-12 object-contain"/>
+                  </div>
+                  {item.checked && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-green-500/20">
+                      <span className="text-2xl font-bold text-green-700">
+                        ✓
+                      </span>
+                    </div>
+                  )}
+                </button>
+                {/* アイテム名 */}
+                <p className="mt-2 text-sm text-slate-700 text-center">
+                  傘
+                </p>
+              </li>
+            ))}
+          </ul>
         </section>
 
         {/* News Widget Placeholder */}
