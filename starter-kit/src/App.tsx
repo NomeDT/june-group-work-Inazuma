@@ -9,8 +9,65 @@ function App() {
     return () => clearInterval(timer);
   }, []);
 
-  {/* 持ち物がチェックされたか */ }
-  const [items, setItems] = useState([{ checked: false }, { checked: false }, { checked: false }]);
+
+
+  {/*天気による持ち物の提案*/}
+
+  const precipitationProbability = 70;
+  const uvIndex = 8;
+
+  const recommendedItems: {
+    name: string;
+    image: string;
+    checked: boolean;
+  }[]=[];
+  
+  if (precipitationProbability >= 50 && precipitationProbability < 80){
+    recommendedItems.push({
+      name: "折り畳み傘",
+      image: "  ",
+      checked: false,
+    });
+  }
+
+  if (precipitationProbability >= 80){
+    recommendedItems.push({
+      name: "傘",
+      image: "  ",
+      checked: false,
+    });
+  }
+
+  if(uvIndex >= 3 && uvIndex <6){
+    recommendedItems.push({
+      name: "帽子",
+      image: "  ",
+      checked: false,
+    });
+  }
+
+   if(uvIndex >= 6 && uvIndex < 8){
+    recommendedItems.push({
+      name: "日傘",
+      image: "  ",
+      checked: false,
+    });
+  }
+
+   if(uvIndex >= 8){
+    recommendedItems.push({
+      name: "日焼け止め",
+      image: "  ",
+      checked: false,
+    });
+  }
+
+  console.log(recommendedItems);
+  // setItems(recommendedItems);
+
+  {/* 持ち物がチェックされたか */}
+  const [items, setItems] = useState(recommendedItems);
+
 
   {/* 持ち物がクリックされたときの関数 */ }
   const toggleCheck = (index: number) => {
@@ -95,7 +152,12 @@ function App() {
                     }`}
                 >
                   <div className="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center overflow-hidden shadow">
-                    <img src={"/images/umbrella.png"} alt={""} className="w-12 h-12 object-contain" />
+
+                    <img 
+                      src= {item.image}
+                      alt= {item.name}
+                      className="w-12 h-12 object-contain"/>
+
                   </div>
                   {item.checked && (
                     <div className="absolute inset-0 flex items-center justify-center bg-green-500/20">
@@ -107,7 +169,7 @@ function App() {
                 </button>
                 {/* アイテム名 */}
                 <p className="mt-2 text-sm text-slate-700 text-center">
-                  傘
+                  {item.name}
                 </p>
               </li>
             ))}
