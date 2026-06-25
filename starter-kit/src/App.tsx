@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sun, Cloud, CloudRain, Newspaper, CheckCircle, Clock, Briefcase } from 'lucide-react';
+import { Sun, Cloud, Newspaper, CheckCircle, Clock, Briefcase } from 'lucide-react';
 
 function App() {
   const [time, setTime] = React.useState(new Date());
@@ -9,10 +9,10 @@ function App() {
     return () => clearInterval(timer);
   }, []);
 
-  {/* 持ち物がチェックされたか */ }
-  const [items, setItems] = useState([{ checked: false }, { checked: false }, { checked: false }]);
+  {/* 持ち物がチェックされたか */}
+  const [items, setItems] = useState([{checked: false}, {checked: false}, {checked: false}]);
 
-  {/* 持ち物がクリックされたときの関数 */ }
+  {/* 持ち物がクリックされたときの関数 */}
   const toggleCheck = (index: number) => {
     setItems((prev) =>
       prev.map((item, i) =>
@@ -22,35 +22,10 @@ function App() {
       )
     );
   };
-  {/*天気のアイコンを表示*/ }
-  /*const weather = "Sunny";
-  const weather = "Cloudy"*/
-  const weather = "Rainy"
+
   return (
     <div className="min-h-screen p-4 md:p-8">
       <header className="mb-8">
-        <div className='flex justify-center mb-4'>
-          {weather === "Sunny" && (
-            <Sun
-              size={120}
-              className='text-yellow-400'
-            />
-          )}
-          {weather === "Cloudy" && (
-            <Cloud
-              size={120}
-              className="text-gray-400"
-            />
-          )}
-
-          {weather === "Rainy" && (
-            <CloudRain
-              size={120}
-              className="text-blue-500"
-            />
-          )}
-        </div>
-
         <h1 className="text-3xl font-bold text-slate-800">Good Morning!</h1>
         <p className="text-slate-500 flex items-center gap-2">
           <Clock size={18} />
@@ -89,10 +64,10 @@ function App() {
                     ${item.checked
                       ? "bg-green-100 ring-4 ring-green-500"
                       : "bg-slate-100 hover:bg-slate-200"
-                    }`}
+                  }`}
                 >
                   <div className="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center overflow-hidden shadow">
-                    <img src={"/images/umbrella.png"} alt={""} className="w-12 h-12 object-contain" />
+                    <img src={"/images/umbrella.png"} alt={""} className="w-12 h-12 object-contain"/>
                   </div>
                   {item.checked && (
                     <div className="absolute inset-0 flex items-center justify-center bg-green-500/20">
