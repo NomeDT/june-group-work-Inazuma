@@ -51,7 +51,10 @@ function App() {
           )}
         </div>
 
-        <h1 className="text-3xl font-bold text-slate-800">Good Morning!</h1>
+        <h1 className="text-3xl font-bold text-slate-800">{new Date().getHours() < 12 ? "Good Morning" 
+    : new Date().getHours() < 17 ? "Good Afternoon" 
+    : new Date().getHours() < 21 ? "Good Evening" 
+    : "Good Night"}!</h1>
         <p className="text-slate-500 flex items-center gap-2">
           <Clock size={18} />
           {time.toLocaleTimeString()}
