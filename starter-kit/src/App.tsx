@@ -1,13 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Sun, Cloud, CloudRain, Newspaper, CheckCircle, Clock, Briefcase } from 'lucide-react';
 
 function App() {
   const [time, setTime] = React.useState(new Date());
-/*位置情報取得 */
+  const [latitude, setLatitude] = useState<number | null>(null);
+  const [longitude, setLongitude] = useState<number | null>(null);
+  const handleGetLocation = () => {
+  if (!navigator.geolocation) {
+    alert("位置情報に対応していません");
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      setLatitude(pos.coords.latitude);
+      setLongitude(pos.coords.longitude);
+    },
+    () => {
+      alert("位置情報を取得できませんでした");
+    }
+  );
+};
+
+  /*get time*/
   React.useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
+  /*位置情報を取得*/
+  useEffect(() => {
+  handleGetLocation();
+}, []);
 
   {/* 持ち物がチェックされたか */ }
   const [items, setItems] = useState([{ checked: false }, { checked: false }, { checked: false }]);
