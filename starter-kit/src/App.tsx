@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Sun, Cloud, CloudRain, Newspaper, CheckCircle, Clock, Briefcase } from 'lucide-react';
 
 function App() {
@@ -10,22 +10,78 @@ function App() {
   }, []);
 
 
+  {/*現在値の仮置き。東京に設定中*/}
+  const [latitude, setLatitude] = useState("35.41");
+  const [longitude, setLongitude] = useState("139.45");
+
+  {/*天気予報の取得*/}
+  type Weather = "Sunny" | "Cloudy" | "Rainy";
+
+  const [weather, setWeather] = useState<Weather | null>(null);
+  const [precipitationProbability, setPrecipitationProbability] = useState<number | null>(null);
+  const [uvIndex, setUvIndex] = useState<number | null>(null);
+  const [currentTemperature, setCurrentTemperature] = useState<number | null>(null);
+
+  // 天気予報の振り分け
+  const classifyWeather = (code: number): "Sunny" | "Cloudy" | "Rainy" => {
+    const sunny = [0, 1];
+    const cloudy = [2, 3, 45, 48];
+    const rainy = [
+      51, 53, 55, //霧雨
+      61, 63, 65, //雨
+      80, 81, 82, //にわか雨
+      95          //雷雨
+    ];
+    if (sunny.includes(code)) return "Sunny";
+    if (cloudy.includes(code)) return "Cloudy";
+    if (rainy.includes(code)) return "Rainy";
+
+    return "Cloudy"; //その他は暫定で曇り表示
+  };
+
+  useEffect(() => {
+    // if (latitude === "???" || longitude === "???") return;
+
+    const fetchWeather = async () => {
+      // 現在の気温、一日の天気、最大降水確率、最大uv指数を得る
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=weather_code,precipitation_probability_max,uv_index_max&current=temperature_2m&timezone=Asia%2FTokyo&forecast_days=1`;
+
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        const code = data.daily.weather_code[0];
+        setWeather(classifyWeather(code));
+
+        setPrecipitationProbability(data.daily.precipitation_probability_max[0]);
+
+        setUvIndex(data.daily.uv_index_max[0]);
+
+        setCurrentTemperature(data.current.temperature_2m);
+
+      } catch (err) {
+        console.error("天気取得エラー", err);
+      }
+    };
+    
+    fetchWeather();
+  }, [latitude, longitude]);
+
 
   {/*天気による持ち物の提案*/}
 
-  const precipitationProbability = 70;
-  const uvIndex = 8;
+  // const precipitationProbability = 70;
+  // const uvIndex = 8;
 
   const recommendedItems: {
     name: string;
     image: string;
     checked: boolean;
   }[]=[];
-  
+
   if (precipitationProbability >= 50 && precipitationProbability < 80){
     recommendedItems.push({
       name: "折り畳み傘",
-      image: "  ",
+      image: "/images/foldingUmbrella.png",
       checked: false,
     });
   }
@@ -33,7 +89,7 @@ function App() {
   if (precipitationProbability >= 80){
     recommendedItems.push({
       name: "傘",
-      image: "  ",
+      image: "/images/umbrella.png",
       checked: false,
     });
   }
@@ -41,7 +97,7 @@ function App() {
   if(uvIndex >= 3 && uvIndex <6){
     recommendedItems.push({
       name: "帽子",
-      image: "  ",
+      image: "/images/cap.png",
       checked: false,
     });
   }
@@ -49,7 +105,7 @@ function App() {
    if(uvIndex >= 6 && uvIndex < 8){
     recommendedItems.push({
       name: "日傘",
-      image: "  ",
+      image: "/images/parasol.png",
       checked: false,
     });
   }
@@ -57,7 +113,7 @@ function App() {
    if(uvIndex >= 8){
     recommendedItems.push({
       name: "日焼け止め",
-      image: "  ",
+      image: "/images/sunscreen.png",
       checked: false,
     });
   }
@@ -82,7 +138,7 @@ function App() {
   {/*天気のアイコンを表示*/ }
   /*const weather = "Sunny";
   const weather = "Cloudy"*/
-  const weather = "Rainy"
+  // const weather = "Rainy"
   return (
     <div className="min-h-screen p-4 md:p-8">
       <header className="mb-8">
@@ -112,6 +168,16 @@ function App() {
     : new Date().getHours() < 17 ? "Good Afternoon" 
     : new Date().getHours() < 21 ? "Good Evening" 
     : "Good Night"}!</h1>
+
+    <p className="text-slate-600 mt-1">
+  {new Date().toLocaleDateString("ja-JP", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    weekday: "long"
+  })}
+</p>
+
         <p className="text-slate-500 flex items-center gap-2">
           <Clock size={18} />
           {time.toLocaleTimeString()}
@@ -127,8 +193,8 @@ function App() {
             </h2>
           </div>
           <div className="text-center py-4">
-            <div className="text-4xl font-bold mb-1">24°C</div>
-            <p className="text-slate-500">Sunny Day</p>
+            <div className="text-4xl font-bold mb-1"><span>{currentTemperature}</span>°C</div>
+            <p className="text-slate-500"><span>{weather}</span> Day</p>
           </div>
         </section>
 
