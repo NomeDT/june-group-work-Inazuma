@@ -1,18 +1,37 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Sun, Cloud, CloudRain, Newspaper, CheckCircle, Clock, Briefcase } from 'lucide-react';
 
 function App() {
   const [time, setTime] = React.useState(new Date());
+  const [latitude, setLatitude] = useState<number | null>(null);
+  const [longitude, setLongitude] = useState<number | null>(null);
+  const handleGetLocation = () => {
+  if (!navigator.geolocation) {
+    alert("位置情報に対応していません");
+    return;
+  }
 
-  React.useEffect(() => {
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      setLatitude(pos.coords.latitude);
+      setLongitude(pos.coords.longitude);
+    },
+    () => {
+      alert("位置情報を取得できませんでした");
+    }
+  );
+};
+
+  /*get time*/
+  useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
-
-
-  {/*現在値の仮置き。東京に設定中*/ }
-  const [latitude, setLatitude] = useState("35.41");
-  const [longitude, setLongitude] = useState("139.45");
+  /*位置情報を取得*/
+  useEffect(() => {
+  handleGetLocation();
+  if (latitude === null || longitude === null) return;
+}, []);
 
   {/*天気予報の取得*/ }
   type Weather = "Sunny" | "Cloudy" | "Rainy";
