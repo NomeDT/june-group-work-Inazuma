@@ -158,6 +158,11 @@ function App() {
   return (
     <div className="min-h-screen p-4 md:p-8">
       <header className="mb-8">
+        <h1 className="text-3xl font-bold text-slate-800">{new Date().getHours() < 12 ? "Good Morning"
+          : new Date().getHours() < 17 ? "Good Afternoon"
+            : new Date().getHours() < 21 ? "Good Evening"
+              : "Good Night"}!
+        </h1>
         <div className='flex justify-center mb-4'>
           {weather === "Sunny" && (
             <Sun
@@ -180,12 +185,13 @@ function App() {
           )}
         </div>
 
-        <h1 className="text-3xl font-bold text-slate-800">{new Date().getHours() < 12 ? "Good Morning"
+        {/* <h1 className="text-3xl font-bold text-slate-800">{new Date().getHours() < 12 ? "Good Morning"
           : new Date().getHours() < 17 ? "Good Afternoon"
             : new Date().getHours() < 21 ? "Good Evening"
-              : "Good Night"}!</h1>
+              : "Good Night"}!
+        </h1> */}
 
-        <p className="text-slate-600 mt-1">
+        <p className="text-slate-800">
           {new Date().toLocaleDateString("ja-JP", {
             year: "numeric",
             month: "long",
@@ -259,7 +265,7 @@ function App() {
         </section>
 
         {/* News Widget Placeholder */}
-        <section className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+        {/* <section className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
           <div className="flex justify-between items-center mb-4">
             <h2 className="font-semibold text-lg flex items-center gap-2">
               <Newspaper className="text-blue-500" /> Top Stories
@@ -272,10 +278,10 @@ function App() {
               </li>
             ))}
           </ul>
-        </section>
+        </section> */}
 
         {/* Tasks Widget Placeholder */}
-        <section className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+        {/* <section className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
           <div className="flex justify-between items-center mb-4">
             <h2 className="font-semibold text-lg flex items-center gap-2">
               <CheckCircle className="text-emerald-500" /> Today's Focus
@@ -287,7 +293,7 @@ function App() {
               <span>Drink 1 glass of water</span>
             </label>
           </div>
-        </section>
+        </section> */}
       </main>
 
       <footer className="mt-12 text-center text-slate-400 text-xs">
