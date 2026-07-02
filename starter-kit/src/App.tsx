@@ -3,7 +3,7 @@ import { Sun, Cloud, CloudRain, Newspaper, CheckCircle, Clock, Briefcase } from 
 
 function App() {
   const [time, setTime] = React.useState(new Date());
-
+/*位置情報取得 */
   React.useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(timer);
