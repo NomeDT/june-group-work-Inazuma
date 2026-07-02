@@ -10,11 +10,11 @@ function App() {
   }, []);
 
 
-  {/*現在値の仮置き。東京に設定中*/}
+  {/*現在値の仮置き。東京に設定中*/ }
   const [latitude, setLatitude] = useState("35.41");
   const [longitude, setLongitude] = useState("139.45");
 
-  {/*天気予報の取得*/}
+  {/*天気予報の取得*/ }
   type Weather = "Sunny" | "Cloudy" | "Rainy";
 
   const [weather, setWeather] = useState<Weather | null>(null);
@@ -40,8 +40,6 @@ function App() {
   };
 
   useEffect(() => {
-    // if (latitude === "???" || longitude === "???") return;
-
     const fetchWeather = async () => {
       // 現在の気温、一日の天気、最大降水確率、最大uv指数を得る
       const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=weather_code,precipitation_probability_max,uv_index_max&current=temperature_2m&timezone=Asia%2FTokyo&forecast_days=1`;
@@ -62,68 +60,70 @@ function App() {
         console.error("天気取得エラー", err);
       }
     };
-    
+
     fetchWeather();
   }, [latitude, longitude]);
 
 
-  {/*天気による持ち物の提案*/}
+  {/*天気による持ち物の提案*/ }
 
-  // const precipitationProbability = 70;
-  // const uvIndex = 8;
+  const [items, setItems] = useState<
+    { name: string; image: string; checked: boolean }[]
+  >([]);
 
-  const recommendedItems: {
-    name: string;
-    image: string;
-    checked: boolean;
-  }[]=[];
+  useEffect(() => {
+    if (precipitationProbability === null || uvIndex === null) return;
 
-  if (precipitationProbability >= 50 && precipitationProbability < 80){
-    recommendedItems.push({
-      name: "折り畳み傘",
-      image: "/images/foldingUmbrella.png",
-      checked: false,
-    });
-  }
+    const recommendedItems: { name: string; image: string; checked: boolean }[] = [];
 
-  if (precipitationProbability >= 80){
-    recommendedItems.push({
-      name: "傘",
-      image: "/images/umbrella.png",
-      checked: false,
-    });
-  }
+    if (precipitationProbability >= 50 && precipitationProbability < 80) {
+      recommendedItems.push({
+        name: "折り畳み傘",
+        image: "/images/foldingUmbrella.png",
+        checked: false,
+      });
+    }
 
-  if(uvIndex >= 3 && uvIndex <6){
-    recommendedItems.push({
-      name: "帽子",
-      image: "/images/cap.png",
-      checked: false,
-    });
-  }
+    if (precipitationProbability >= 80) {
+      recommendedItems.push({
+        name: "傘",
+        image: "/images/umbrella.png",
+        checked: false,
+      });
+    }
 
-   if(uvIndex >= 6 && uvIndex < 8){
-    recommendedItems.push({
-      name: "日傘",
-      image: "/images/parasol.png",
-      checked: false,
-    });
-  }
+    if (uvIndex >= 3 && uvIndex < 6) {
+      recommendedItems.push({
+        name: "帽子",
+        image: "/images/cap.png",
+        checked: false,
+      });
+    }
 
-   if(uvIndex >= 8){
-    recommendedItems.push({
-      name: "日焼け止め",
-      image: "/images/sunscreen.png",
-      checked: false,
-    });
-  }
+    if (uvIndex >= 6 && uvIndex < 8) {
+      recommendedItems.push({
+        name: "日傘",
+        image: "/images/parasol.png",
+        checked: false,
+      });
+    }
 
-  console.log(recommendedItems);
+    if (uvIndex >= 8) {
+      recommendedItems.push({
+        name: "日焼け止め",
+        image: "/images/sunscreen.png",
+        checked: false,
+      });
+    }
+
+    console.log("生成された持ち物", recommendedItems);
+    setItems(recommendedItems);
+  }, [precipitationProbability, uvIndex]);
+
+  // console.log(recommendedItems);
   // setItems(recommendedItems);
 
-  {/* 持ち物がチェックされたか */}
-  const [items, setItems] = useState(recommendedItems);
-
+  {/* 持ち物がチェックされたか */ }
 
   {/* 持ち物がクリックされたときの関数 */ }
   const toggleCheck = (index: number) => {
@@ -136,9 +136,6 @@ function App() {
     );
   };
   {/*天気のアイコンを表示*/ }
-  /*const weather = "Sunny";
-  const weather = "Cloudy"*/
-  // const weather = "Rainy"
   return (
     <div className="min-h-screen p-4 md:p-8">
       <header className="mb-8">
@@ -164,19 +161,19 @@ function App() {
           )}
         </div>
 
-        <h1 className="text-3xl font-bold text-slate-800">{new Date().getHours() < 12 ? "Good Morning" 
-    : new Date().getHours() < 17 ? "Good Afternoon" 
-    : new Date().getHours() < 21 ? "Good Evening" 
-    : "Good Night"}!</h1>
+        <h1 className="text-3xl font-bold text-slate-800">{new Date().getHours() < 12 ? "Good Morning"
+          : new Date().getHours() < 17 ? "Good Afternoon"
+            : new Date().getHours() < 21 ? "Good Evening"
+              : "Good Night"}!</h1>
 
-    <p className="text-slate-600 mt-1">
-  {new Date().toLocaleDateString("ja-JP", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    weekday: "long"
-  })}
-</p>
+        <p className="text-slate-600 mt-1">
+          {new Date().toLocaleDateString("ja-JP", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            weekday: "long"
+          })}
+        </p>
 
         <p className="text-slate-500 flex items-center gap-2">
           <Clock size={18} />
@@ -219,10 +216,10 @@ function App() {
                 >
                   <div className="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center overflow-hidden shadow">
 
-                    <img 
-                      src= {item.image}
-                      alt= {item.name}
-                      className="w-12 h-12 object-contain"/>
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-12 h-12 object-contain" />
 
                   </div>
                   {item.checked && (
